@@ -1,0 +1,13 @@
+<Page
+    x:Class="ChampionsCompanion.App.Pages.DecksPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Decks"
+    Loaded="OnLoaded">
+
+    <StackPanel Margin="32,16">
+        <TextBlock Text="Decks" FontSize="28" FontWeight="SemiBold" />
+        <TextBlock x:Name="StatusText" Margin="0,12,0,0" Foreground="{StaticResource SubtleTextBrush}" />
+        <!-- TODO D.1: deck list with status, New, Edit and Delete. -->
+    </StackPanel>
+</Page>

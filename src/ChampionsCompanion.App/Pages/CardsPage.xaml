@@ -1,0 +1,13 @@
+<Page
+    x:Class="ChampionsCompanion.App.Pages.CardsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Cards"
+    Loaded="OnLoaded">
+
+    <StackPanel Margin="32,16">
+        <TextBlock Text="Cards" FontSize="28" FontWeight="SemiBold" />
+        <TextBlock x:Name="StatusText" Margin="0,12,0,0" Foreground="{StaticResource SubtleTextBrush}" />
+        <!-- TODO C.1: filters, grid mode (DataGrid) and card mode (ListView + CardView custom control). -->
+    </StackPanel>
+</Page>

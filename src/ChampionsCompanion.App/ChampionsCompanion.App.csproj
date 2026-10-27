@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>ChampionsCompanion.App</RootNamespace>
+    <AssemblyName>ChampionsCompanion</AssemblyName>
+    <Version>1.0.0</Version>
+    <!-- Lets the project build on Linux/macOS too (CI); it only runs on Windows. -->
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="WPF-UI" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ChampionsCompanion.Core\ChampionsCompanion.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Card images and backgrounds are copied next to the .exe, so they can be replaced without rebuilding. -->
+    <None Update="Images\**\*" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>
