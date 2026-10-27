@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Deck list</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;background:#07070c;color:#ffffff;font-family:"Segoe UI Variable Text","Segoe UI",system-ui,sans-serif;font-size:14px}
+a{color:#60cdff}a:hover{color:#99ebff}
+.navi{display:flex;align-items:center;gap:12px;height:40px;padding:0 12px;border-radius:6px;color:#ffffff;text-decoration:none;position:relative}
+.navi.on{background:rgba(0,0,0,0.55)}
+.navi.on::before{content:"";position:absolute;left:0;top:12px;bottom:12px;width:3px;border-radius:2px;background:#60cdff}
+.btn{height:32px;padding:0 14px;border-radius:4px;border:1px solid #3d3d3d;background:#1c1c1c;color:#ffffff;font:inherit;display:inline-flex;align-items:center;gap:8px;cursor:pointer;text-decoration:none}
+.btn.acc{background:#60cdff;border-color:#60cdff;color:#000000;font-weight:600}
+.ib{width:36px;height:36px;padding:0;justify-content:center;background:transparent;border-color:transparent}
+.field{display:flex;flex-direction:column;gap:6px;font-size:12px;color:#c5c5c5}
+.in{height:32px;box-sizing:border-box;border-radius:4px;border:1px solid #3d3d3d;border-bottom-color:#8a8a8a;background:#1c1c1c;color:#ffffff;font:inherit;font-size:14px;padding:0 10px}
+.chip{display:inline-flex;align-items:center;height:22px;padding:0 8px;border-radius:11px;font-size:12px;font-weight:600;color:#000000;white-space:nowrap}
+.a-just{background:#f2c94c}.a-aggr{background:#ff9a8f}.a-prot{background:#7fd99a}.a-lead{background:#8fc9ff}.a-none{background:transparent;color:#c5c5c5;border:1px dashed #6a6a6a}
+.st{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px;border-radius:12px;font-size:12px;font-weight:600;white-space:nowrap}
+.st-ok{background:#1f3b2a;color:#9be3b0}
+.st-bad{background:#4a3a14;color:#fcd770}
+.deck{display:flex;flex-wrap:wrap;align-items:center;gap:16px;padding:12px 16px;border-radius:8px;background:#101010;border:1px solid #333333}
+.deck.sel{background:#2f3a41;border-color:#3f5866}
+.port{flex:none;width:56px;height:56px;border-radius:24px;background:#3d3d3d;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#e0e0e0}
+.tip{position:absolute;right:120px;top:44px;z-index:2;width:260px;padding:10px 12px;border-radius:6px;background:#383838;border:1px solid #4d4d4d;font-size:12px;line-height:1.5;color:#f0f0f0;box-shadow:0 6px 18px rgba(0,0,0,0.45)}
+.win{background:#43415A}
+.navcol{background:linear-gradient(180deg,#43415A 0%,#646066 100%)}
+.content{background:#07070c url(/_blob/0dfe821c775d9ff1723d0f6b5bb7dcc6) center top / cover no-repeat}
+</style>
+</helmet>
+<div class="win" style="display: flex; flex-direction: column; min-height: 800px">
+  <div style="height: 32px; display: flex; align-items: center; gap: 10px; padding: 0 0 0 14px; font-size: 12px; color: #c5c5c5">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60cdff" stroke-width="2" aria-hidden="true"><path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5l8-3z"></path></svg>
+    <span>Champions Companion</span>
+  </div>
+  <div style="display: flex; flex-wrap: wrap; flex: 1">
+    <nav aria-label="Main" class="navcol" style="flex: 1 1 200px; max-width: 260px; padding: 4px 8px; display: flex; flex-direction: column; gap: 2px">
+      <button class="btn" aria-label="Collapse menu" style="width: 40px; justify-content: center; padding: 0; border: 0; background: transparent">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"></path></svg>
+      </button>
+      <a class="navi" href="Main.dc.html">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.8" aria-hidden="true"><rect x="4" y="3" width="12" height="16" rx="2"></rect><path d="M8 21h10a2 2 0 0 0 2-2V7"></path></svg>
+        Cards
+      </a>
+      <a class="navi on" href="Decks.dc.html" aria-current="page">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.8" aria-hidden="true"><rect x="3" y="7" width="13" height="14" rx="2"></rect><path d="M7 3h12a2 2 0 0 1 2 2v12"></path></svg>
+        Decks
+      </a>
+      </nav>
+    <main class="content" style="flex: 999 1 560px; min-width: 0; padding: 28px 32px; display: flex; flex-direction: column; gap: 20px; box-sizing: border-box">
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 16px">
+        <h1 style="margin: 0; font-size: 28px; font-weight: 600">Decks</h1>
+        <div style="flex: 1"></div>
+        <a class="btn acc" href="DeckEdit.dc.html">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>New deck</a>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; align-items: flex-end; gap: 12px">
+        <label class="field" style="flex: 2 1 220px">Deck name
+          <input class="in" type="search" placeholder="Search decks">
+        </label>
+        <label class="field" style="flex: 1 1 160px">Hero
+          <select class="in"><option>All</option></select>
+        </label>
+        <label class="field" style="flex: 1 1 140px">Aspect
+          <select class="in"><option>All</option></select>
+        </label>
+        <label class="field" style="flex: 1 1 140px">Status
+          <select class="in"><option>All</option></select>
+        </label>
+      </div>
+
+      <div style="font-size: 13px; color: #c5c5c5"><strong style="color: #ffffff">7</strong> decks · 3 incomplete · sorted by last modified</div>
+
+      <div role="list" style="display: flex; flex-direction: column; gap: 8px; position: relative">
+        <sc-for list="{{decks}}" as="d" hint-placeholder-count="7">
+          <div role="listitem" class="deck {{d.selCls}}">
+            <img class="port" src="{{d.img}}" alt="Deck image" style="object-fit: cover; object-position: 50% 12%">
+            <div style="flex: 3 1 220px; min-width: 0; display: flex; flex-direction: column; gap: 4px">
+              <strong style="font-size: 16px; font-weight: 600">{{d.name}}</strong>
+              <span style="font-size: 13px; color: #c5c5c5">{{d.hero}}</span>
+            </div>
+            <div style="flex: 1 1 110px"><span class="chip {{d.cls}}">{{d.asp}}</span></div>
+            <div style="flex: 1 1 110px; font-size: 14px"><strong>{{d.count}}</strong><span style="color: #a8a8a8"> / 40–50</span></div>
+            <div style="flex: 1 1 130px"><span class="st {{d.stCls}}" title="{{d.why}}">{{d.st}}</span></div>
+            <div style="flex: 1 1 110px; font-size: 13px; color: #c5c5c5">{{d.date}}</div>
+            <div style="display: flex; gap: 2px">
+              <a class="btn ib" href="DeckEdit.dc.html" aria-label="Edit {{d.name}}">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.8" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16v4z"></path></svg>
+              </a>
+              <button class="btn ib" aria-label="Delete {{d.name}}">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.8" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"></path></svg>
+              </button>
+            </div>
+          </div>
+        </sc-for>
+        <div class="tip" role="tooltip"><strong>Incomplete</strong><br>S2: 38 cards. A deck needs at least 40.</div>
+      </div>
+    </main>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":800}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const C = { Justice: 'a-just', Aggression: 'a-aggr', Protection: 'a-prot', Leadership: 'a-lead' };
+    const raw = [
+      ['Spidey Justice', 'Spider-Man · Peter Parker', 'Justice', 45, '', '20 Oct 2026'],
+      ['Captain Marvel Leadership', 'Captain Marvel · Carol Danvers', 'Leadership', 38, 'S2: 38 cards. A deck needs at least 40.', '20 Oct 2026'],
+      ['Daredevil test', 'Captain America · Steve Rogers', 'Justice', 42, 'S5: For Justice! has 4 copies, limit 3.', '19 Oct 2026'],
+      ['Iron Man Aggro', 'Iron Man · Tony Stark', 'Aggression', 51, 'S2: 51 cards. A deck can have at most 50.', '18 Oct 2026'],
+      ['She-Hulk draft', 'She-Hulk · Jennifer Walters', '', 15, 'S1: choose an aspect. S2: 15 cards, at least 40 needed.', '18 Oct 2026'],
+      ['Black Panther Protection', "Black Panther · T'Challa", 'Protection', 40, '', '17 Oct 2026'],
+      ['Miles test', 'Spider-Man · Miles Morales', 'Aggression', 40, '', '15 Oct 2026']
+    ];
+    const IMG = ["/_blob/7fa98f8337b3d6faa06371dc4048bc79", "/_blob/d760e2e44aa97a21b9c9f19da674806d", "/_blob/cf556de6a9d30dde224bdf18e1c449a8", "/_blob/7a6c7fb3caf5fac1aa553e735f73bc57", "/_blob/1461080d9dbf538746cb0024566c201b", "/_blob/2faef2c5e1ed66c5319eb80199ac3143", "/_blob/ad4ccec1cdcf2c6942f059c4c465295e"];
+    const decks = raw.map((r, i) => ({
+      name: r[0], hero: r[1], asp: r[2] || 'No aspect', cls: C[r[2]] || 'a-none', count: r[3],
+      st: r[4] ? 'Incomplete' : 'Complete', stCls: r[4] ? 'st-bad' : 'st-ok', why: r[4] || 'All rules pass', date: r[5],
+      ini: r[1].split(' · ')[0].split(/[\s-]/).map(w => w[0]).join('').slice(0, 2).toUpperCase(),
+      selCls: i === 1 ? 'sel' : '', img: IMG[i]
+    }));
+    return { decks };
+  }
+}
+</script>
+</body>
+</html>

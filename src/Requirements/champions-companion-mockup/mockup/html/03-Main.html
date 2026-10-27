@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en"><head>
+<!-- C.1 · Cards, grid mode (default page) --><style>
+    .sc-placeholder{background:color-mix(in srgb,currentColor 8%,transparent);
+      border:1px solid color-mix(in srgb,currentColor 50%,transparent);
+      border-radius:2px;box-sizing:border-box;overflow:hidden}
+    @keyframes sc-shine{0%{background-position:100% 50%}100%{background-position:0% 50%}}
+    html.sc-dc-streaming .sc-placeholder,
+    html.sc-dc-streaming .sc-interp.sc-missing{position:relative;
+      background:color-mix(in srgb,currentColor 5%,transparent);
+      border-color:transparent}
+    html.sc-dc-streaming .sc-placeholder::before,
+    html.sc-dc-streaming .sc-interp.sc-missing::before{content:'';
+      position:absolute;inset:0;pointer-events:none;
+      background:linear-gradient(90deg,rgba(217,119,87,0) 25%,rgba(247,225,211,.95) 37%,rgba(217,119,87,0) 63%);
+      background-size:400% 100%;animation:sc-shine 1.4s ease infinite}
+    html.sc-dc-streaming .sc-placeholder:nth-child(n+9 of .sc-placeholder)::before,
+    html.sc-dc-streaming .sc-interp.sc-missing:nth-child(n+9 of .sc-interp.sc-missing)::before{animation:none;
+      background:color-mix(in srgb,currentColor 8%,transparent)}
+    .sc-placeholder-error{padding:4px 8px;font:11px/1.4 ui-monospace,monospace;
+      color:color-mix(in srgb,currentColor 70%,transparent);word-break:break-word}
+    .sc-interp.sc-missing{display:inline-block;width:2em;height:1em;overflow:hidden;
+      vertical-align:text-bottom;background:rgba(255,255,255,.3);border:1px solid rgba(0,0,0,.5);
+      border-radius:2px;box-sizing:border-box;color:transparent;
+      user-select:none}
+    .sc-interp.sc-unresolved{font-family:ui-monospace,monospace;font-size:.85em;
+      color:color-mix(in srgb,currentColor 50%,transparent);
+      background:color-mix(in srgb,currentColor 10%,transparent);border-radius:3px;
+      padding:0 3px}
+    .sc-host.sc-has-error{position:relative}
+    .sc-logic-error{position:absolute;top:8px;left:8px;z-index:2147483647;max-width:60ch;
+      padding:6px 10px;background:#b00020;color:#fff;font:12px/1.4 ui-monospace,monospace;
+      border-radius:4px;white-space:pre-wrap;pointer-events:none}
+    /* Mirrors PRINT_BASELINE_CSS in apps/web deck-stage-export.ts — keep both
+       in sync until dc-runtime regains a build step. */
+    @media print {
+      @page { margin: 0.5cm; }
+      figure, table { break-inside: avoid; }
+      #dc-root, #dc-root > .sc-host { height: auto; }
+      *, *::before, *::after {
+        print-color-adjust: exact; -webkit-print-color-adjust: exact;
+        backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
+        animation-delay: -99s !important; animation-duration: .001s !important;
+        animation-iteration-count: 1 !important; animation-fill-mode: both !important;
+        animation-play-state: running !important; transition-duration: 0s !important;
+      }
+    }
+  </style>
+<meta charset="utf-8">
+<title>Cards, grid mode</title>
+<style>x-dc{display:none!important}</style>
+<style data-dc-tpl="1">
+body{margin:0;background:#07070c;color:#ffffff;font-family:"Segoe UI Variable Text","Segoe UI",system-ui,sans-serif;font-size:14px}
+a{color:#60cdff}a:hover{color:#99ebff}
+.navi{display:flex;align-items:center;gap:12px;height:40px;padding:0 12px;border-radius:6px;color:#ffffff;text-decoration:none;position:relative}
+.navi.on{background:rgba(0,0,0,0.55)}
+.navi.on::before{content:"";position:absolute;left:0;top:12px;bottom:12px;width:3px;border-radius:2px;background:#60cdff}
+.btn{height:32px;padding:0 14px;border-radius:4px;border:1px solid #3d3d3d;background:#1c1c1c;color:#ffffff;font:inherit;display:inline-flex;align-items:center;gap:8px;cursor:pointer}
+.btn.acc{background:#60cdff;border-color:#60cdff;color:#000000;font-weight:600}
+.seg{display:inline-flex;border:1px solid #3d3d3d;border-radius:4px;overflow:hidden}
+.seg button{height:30px;padding:0 14px;border:0;background:#1c1c1c;color:#ffffff;font:inherit;display:inline-flex;align-items:center;gap:6px}
+.seg button.on{background:#60cdff;color:#000000;font-weight:600}
+.field{display:flex;flex-direction:column;gap:6px;font-size:12px;color:#c5c5c5}
+.in{height:32px;box-sizing:border-box;border-radius:4px;border:1px solid #3d3d3d;border-bottom-color:#8a8a8a;background:#1c1c1c;color:#ffffff;font:inherit;font-size:14px;padding:0 10px}
+.in[disabled]{color:#8a8a8a;border-bottom-color:#3d3d3d}
+.chip{display:inline-flex;align-items:center;height:22px;padding:0 8px;border-radius:11px;font-size:12px;font-weight:600;color:#000000;white-space:nowrap}
+.a-just{background:#f2c94c}.a-aggr{background:#ff9a8f}.a-prot{background:#7fd99a}.a-lead{background:#8fc9ff}.a-basic{background:#cfcfcf}.a-hero{background:#d9b8ff}
+table{border-collapse:collapse;width:100%;min-width:900px}
+th{text-align:left;font-weight:600;font-size:12px;color:#c5c5c5;padding:0 12px;height:36px;border-bottom:1px solid #3d3d3d;white-space:nowrap}
+td{padding:0 12px;height:40px;border-bottom:1px solid #313131;white-space:nowrap}
+tr.sel td{background:#33414a}
+.sub{color:#a8a8a8;font-size:12px;margin-left:6px}
+.win{background:#43415A}
+.navcol{background:linear-gradient(180deg,#43415A 0%,#646066 100%)}
+.content{background:#07070c url(data:image/jpeg;base64,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) center top / cover no-repeat}
+</style></head>
+<body>
+<div id="dc-root"><div class="sc-host" data-sc-name="Main"><div data-dc-tpl="2" class="win" style="display: flex; flex-direction: column; min-height: 800px;">
+  <div data-dc-tpl="3" style="height: 32px; display: flex; align-items: center; gap: 10px; padding: 0px 0px 0px 14px; font-size: 12px; color: rgb(197, 197, 197);">
+    <svg data-dc-tpl="4" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60cdff" stroke-width="2" aria-hidden="true"><path data-dc-tpl="5" d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5l8-3z"></path></svg>
+    <span data-dc-tpl="6">Champions Companion</span>
+  </div>
+  <div data-dc-tpl="7" style="display: flex; flex-wrap: wrap; flex: 1 1 0%;">
+    <nav data-dc-tpl="8" aria-label="Main" class="navcol" style="flex: 1 1 200px; max-width: 260px; padding: 4px 8px; display: flex; flex-direction: column; gap: 2px;">
+      <button data-dc-tpl="9" class="btn" aria-label="Collapse menu" style="width: 40px; justify-content: center; padding: 0px; border: 0px; background: transparent;">
+        <svg data-dc-tpl="10" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" aria-hidden="true"><path data-dc-tpl="11" d="M3 6h18M3 12h18M3 18h18"></path></svg>
+      </button>
+      <a data-dc-tpl="12" class="navi on" href="03-Main.html" aria-current="page">
+        <svg data-dc-tpl="13" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.8" aria-hidden="true"><rect data-dc-tpl="14" x="4" y="3" width="12" height="16" rx="2"></rect><path data-dc-tpl="15" d="M8 21h10a2 2 0 0 0 2-2V7"></path></svg>
+        Cards
+      </a>
+      <a data-dc-tpl="16" class="navi" href="07-Decks.html">
+        <svg data-dc-tpl="17" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.8" aria-hidden="true"><rect data-dc-tpl="18" x="3" y="7" width="13" height="14" rx="2"></rect><path data-dc-tpl="19" d="M7 3h12a2 2 0 0 1 2 2v12"></path></svg>
+        Decks
+      </a>
+      </nav>
+    <main data-dc-tpl="20" class="content" style="flex: 999 1 560px; min-width: 0px; padding: 28px 32px; display: flex; flex-direction: column; gap: 20px; box-sizing: border-box;">
+      <div data-dc-tpl="21" style="display: flex; flex-wrap: wrap; align-items: center; gap: 16px;">
+        <h1 data-dc-tpl="22" style="margin: 0px; font-size: 28px; font-weight: 600;">Cards</h1>
+        <div data-dc-tpl="23" style="flex: 1 1 0%;"></div>
+        <div data-dc-tpl="24" class="seg" role="group" aria-label="Display mode">
+          <button data-dc-tpl="25" class="on" aria-pressed="true">
+            <svg data-dc-tpl="26" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path data-dc-tpl="27" d="M3 6h18M3 12h18M3 18h18"></path></svg>Grid</button>
+          <button data-dc-tpl="28" aria-pressed="false">
+            <svg data-dc-tpl="29" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect data-dc-tpl="30" x="3" y="4" width="7" height="16" rx="1"></rect><path data-dc-tpl="31" d="M14 7h7M14 12h7M14 17h5"></path></svg>Cards</button>
+        </div>
+        <a data-dc-tpl="32" class="btn acc" href="05-CardEdit.html" style="text-decoration: none;">
+          <svg data-dc-tpl="33" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path data-dc-tpl="34" d="M12 5v14M5 12h14"></path></svg>New card</a>
+      </div>
+
+      <div data-dc-tpl="35" style="display: flex; flex-wrap: wrap; align-items: flex-end; gap: 12px;">
+        <label data-dc-tpl="36" class="field" style="flex: 2 1 220px;">Name or subtitle
+          <input data-dc-tpl="37" class="in" type="search" placeholder="Search cards" style="">
+        </label>
+        <label data-dc-tpl="38" class="field" style="flex: 1 1 140px;">Aspect
+          <select data-dc-tpl="39" class="in"><option data-dc-tpl="40">All</option></select>
+        </label>
+        <label data-dc-tpl="41" class="field" style="flex: 1 1 140px;">Type
+          <select data-dc-tpl="42" class="in"><option data-dc-tpl="43">All</option></select>
+        </label>
+        <label data-dc-tpl="44" class="field" style="flex: 1 1 110px;">Cost
+          <select data-dc-tpl="45" class="in"><option data-dc-tpl="46">Any</option></select>
+        </label>
+        <label data-dc-tpl="47" class="field" style="flex: 1 1 160px;">Pack
+          <select data-dc-tpl="48" class="in"><option data-dc-tpl="49">Core Set</option></select>
+        </label>
+        <label data-dc-tpl="50" class="field" style="flex: 1 1 140px;">Hero
+          <select data-dc-tpl="51" class="in" disabled=""><option data-dc-tpl="52">Only for Hero aspect</option></select>
+        </label>
+        <button data-dc-tpl="53" class="btn" style="background: transparent; border-color: transparent; color: rgb(96, 205, 255);">Clear filters</button>
+      </div>
+
+      <div data-dc-tpl="54" style="display: flex; align-items: center; gap: 12px; font-size: 13px; color: rgb(197, 197, 197);">
+        <span data-dc-tpl="55"><strong data-dc-tpl="56" style="color: rgb(255, 255, 255);">91</strong> cards</span>
+        <span data-dc-tpl="57" style="color: rgb(138, 138, 138);">·</span>
+        <span data-dc-tpl="58">Sorted by # (pack position). Double-click a row to edit.</span>
+      </div>
+
+      <div data-dc-tpl="59" style="overflow-x: auto; border: 1px solid rgb(51, 51, 51); border-radius: 8px; background: rgb(16, 16, 16);">
+        <table data-dc-tpl="60">
+          <thead data-dc-tpl="61">
+            <tr data-dc-tpl="62">
+              <th data-dc-tpl="63" style="width: 56px;">#&nbsp;▲</th><th data-dc-tpl="64">Name</th><th data-dc-tpl="65">Type</th><th data-dc-tpl="66">Aspect</th><th data-dc-tpl="67" style="text-align: right;">Cost</th><th data-dc-tpl="68">Traits</th><th data-dc-tpl="69">Hero</th><th data-dc-tpl="70">Pack</th><th data-dc-tpl="71" style="text-align: center;">Unique</th>
+            </tr>
+          </thead>
+          <tbody data-dc-tpl="72">
+            
+              <tr data-dc-tpl="74" class="">
+                <td data-dc-tpl="75" style="color: rgb(168, 168, 168);"><span class="sc-interp">2</span></td>
+                <td data-dc-tpl="76"><strong data-dc-tpl="77" style="font-weight: 600;"><span class="sc-interp">Black Cat</span></strong><span data-dc-tpl="78" class="sub"><span class="sc-interp">Felicia Hardy</span></span></td>
+                <td data-dc-tpl="79"><span class="sc-interp">Ally</span></td>
+                <td data-dc-tpl="80"><span data-dc-tpl="81" class="chip a-hero"><span class="sc-interp">Hero</span></span></td>
+                <td data-dc-tpl="82" style="text-align: right;"><span class="sc-interp">2</span></td>
+                <td data-dc-tpl="83" style="color: rgb(197, 197, 197);"><span class="sc-interp">Hero for Hire.</span></td>
+                <td data-dc-tpl="84"><span class="sc-interp">Spider-Man</span></td>
+                <td data-dc-tpl="85" style="color: rgb(197, 197, 197);">Core Set</td>
+                <td data-dc-tpl="86" style="text-align: center; color: rgb(96, 205, 255);"><span class="sc-interp">●</span></td>
+              </tr>
+            
+              <tr data-dc-tpl="74" class="">
+                <td data-dc-tpl="75" style="color: rgb(168, 168, 168);"><span class="sc-interp">3</span></td>
+                <td data-dc-tpl="76"><strong data-dc-tpl="77" style="font-weight: 600;"><span class="sc-interp">Backflip</span></strong><span data-dc-tpl="78" class="sub"><span class="sc-interp"></span></span></td>
+                <td data-dc-tpl="79"><span class="sc-interp">Event</span></td>
+                <td data-dc-tpl="80"><span data-dc-tpl="81" class="chip a-hero"><span class="sc-interp">Hero</span></span></td>
+                <td data-dc-tpl="82" style="text-align: right;"><span class="sc-interp">0</span></td>
+                <td data-dc-tpl="83" style="color: rgb(197, 197, 197);"><span class="sc-interp">Defense. Skill.</span></td>
+                <td data-dc-tpl="84"><span class="sc-interp">Spider-Man</span></td>
+                <td data-dc-tpl="85" style="color: rgb(197, 197, 197);">Core Set</td>
+                <td data-dc-tpl="86" style="text-align: center; color: rgb(96, 205, 255);"><span class="sc-interp"></span></td>
+              </tr>
+            
+              <tr data-dc-tpl="74" class="">
+                <td data-dc-tpl="75" style="color: rgb(168, 168, 168);"><span class="sc-interp">4</span></td>
+                <td data-dc-tpl="76"><strong data-dc-tpl="77" style="font-weight: 600;"><span class="sc-interp">Enhanced Spider-Sense</span></strong><span data-dc-tpl="78" class="sub"><span class="sc-interp"></span></span></td>
+                <td data-dc-tpl="79"><span class="sc-interp">Event</span></td>
+                <td data-dc-tpl="80"><span data-dc-tpl="81" class="chip a-hero"><span class="sc-interp">Hero</span></span></td>
+                <td data-dc-tpl="82" style="text-align: right;"><span class="sc-interp">1</span></td>
+                <td data-dc-tpl="83" style="color: rgb(197, 197, 197);"><span class="sc-interp">Superpower.</span></td>
+                <td data-dc-tpl="84"><span class="sc-interp">Spider-Man</span></td>
+                <td data-dc-tpl="85" style="color: rgb(197, 197, 197);">Core Set</td>
+                <td data-dc-tpl="86" style="text-align: center; color: rgb(96, 205, 255);"><span class="sc-interp"></span></td>
+              </tr>
+            
+              <tr data-dc-tpl="74" class="">
+                <td data-dc-tpl="75" style="color: rgb(168, 168, 168);"><span class="sc-interp">5</span></td>
+                <td data-dc-tpl="76"><strong data-dc-tpl="77" style="font-weight: 600;"><span class="sc-interp">Swinging Web Kick</span></strong><span data-dc-tpl="78" class="sub"><span class="sc-interp"></span></span></td>
+                <td data-dc-tpl="79"><span class="sc-interp">Event</span></td>
+                <td data-dc-tpl="80"><span data-dc-tpl="81" class="chip a-hero"><span class="sc-interp">Hero</span></span></td>
+                <td data-dc-tpl="82" style="text-align: right;"><span class="sc-interp">3</span></td>
+                <td data-dc-tpl="83" style="color: rgb(197, 197, 197);"><span class="sc-interp">Aerial. Attack. Superpower.</span></td>
+                <td data-dc-tpl="84"><span class="sc-interp">Spider-Man</span></td>
+                <td data-dc-tpl="85" style="color: rgb(197, 197, 197);">Core Set</td>
+                <td data-dc-tpl="86" style="text-align: center; color: rgb(96, 205, 255);"><span class="sc-interp"></span></td>
+              </tr>
+            
+              <tr data-dc-tpl="74" class="">
+                <td data-dc-tpl="75" style="color: rgb(168, 168, 168);"><span class="sc-interp">6</span></td>
+                <td data-dc-tpl="76"><strong data-dc-tpl="77" style="font-weight: 600;"><span class="sc-interp">Aunt May</span></strong><span data-dc-tpl="78" class="sub"><span class="sc-interp"></span></span></td>
+                <td data-dc-tpl="79"><span class="sc-interp">Support</span></td>
+                <td data-dc-tpl="80"><span data-dc-tpl="81" class="chip a-hero"><span class="sc-interp">Hero</span></span></td>
+                <td data-dc-tpl="82" style="text-align: right;"><span class="sc-interp">1</span></td>
+                <td data-dc-tpl="83" style="color: rgb(197, 197, 197);"><span class="sc-interp">Persona.</span></td>
+                <td data-dc-tpl="84"><span class="sc-interp">Spider-Man</span></td>
+                <td data-dc-tpl="85" style="color: rgb(197, 197, 197);">Core Set</td>
+                <td data-dc-tpl="86" style="text-align: center; color: rgb(96, 205, 255);"><span class="sc-interp">●</span></td>
+              </tr>
+            
+              <tr data-dc-tpl="74" class="">
+                <td data-dc-tpl="75" style="color: rgb(168, 168, 168);"><span class="sc-interp">44</span></td>
+                <td data-dc-tpl="76"><strong data-dc-tpl="77" style="font-weight: 600;"><span class="sc-interp">Vibranium</span></strong><span data-dc-tpl="78" class="sub"><span class="sc-interp"></span></span></td>
+                <td data-dc-tpl="79"><span class="sc-interp">Resource</span></td>
+                <td data-dc-tpl="80"><span data-dc-tpl="81" class="chip a-hero"><span class="sc-interp">Hero</span></span></td>
+                <td data-dc-tpl="82" style="text-align: right;"><span class="sc-interp">—</span></td>
+                <td data-dc-tpl="83" style="color: rgb(197, 197, 197);"><span class="sc-interp"></span></td>
+                <td data-dc-tpl="84"><span class="sc-interp">Black Panther</span></td>
+                <td data-dc-tpl="85" style="color: rgb(197, 197, 197);">Core Set</td>
+                <td data-dc-tpl="86" style="text-align: center; color: rgb(96, 205, 255);"><span class="sc-interp"></span></td>
+              </tr>
+            
+              <tr data-dc-tpl="74" class="">
+                <td data-dc-tpl="75" style="color: rgb(168, 168, 168);"><span class="sc-interp">50</span></td>
+                <td data-dc-tpl="76"><strong data-dc-tpl="77" style="font-weight: 600;"><span class="sc-interp">Hulk</span></strong><span data-dc-tpl="78" class="sub"><span class="sc-interp">Bruce Banner</span></span></td>
+                <td data-dc-tpl="79"><span class="sc-interp">Ally</span></td>
+                <td data-dc-tpl="80"><span data-dc-tpl="81" class="chip a-aggr"><span class="sc-interp">Aggression</span></span></td>
+                <td data-dc-tpl="82" style="text-align: right;"><span class="sc-interp">2</span></td>
+                <td data-dc-tpl="83" style="color: rgb(197, 197, 197);"><span class="sc-interp">Avenger. Gamma.</span></td>
+                <td data-dc-tpl="84"><span class="sc-interp"></span></td>
+                <td data-dc-tpl="85" style="color: rgb(197, 197, 197);">Core Set</td>
+                <td data-dc-tpl="86" style="text-align: center; color: rgb(96, 205, 255);"><span class="sc-interp">●</span></td>
+              </tr>
+            
+              <tr data-dc-tpl="74" class="">
+                <td data-dc-tpl="75" style="color: rgb(168, 168, 168);"><span class="sc-interp">52</span></td>
+                <td data-dc-tpl="76"><strong data-dc-tpl="77" style="font-weight: 600;"><span class="sc-interp">Chase Them Down</span></strong><span data-dc-tpl="78" class="sub"><span class="sc-interp"></span></span></td>
+                <td data-dc-tpl="79"><span class="sc-interp">Event</span></td>
+                <td data-dc-tpl="80"><span data-dc-tpl="81" class="chip a-aggr"><span class="sc-interp">Aggression</span></span></td>
+                <td data-dc-tpl="82" style="text-align: right;"><span class="sc-interp">0</span></td>
+                <td data-dc-tpl="83" style="color: rgb(197, 197, 197);"><span class="sc-interp">Thwart.</span></td>
+                <td data-dc-tpl="84"><span class="sc-interp"></span></td>
+                <td data-dc-tpl="85" style="color: rgb(197, 197, 197);">Core Set</td>
+                <td data-dc-tpl="86" style="text-align: center; color: rgb(96, 205, 255);"><span class="sc-interp"></span></td>
+              </tr>
+            
+              <tr data-dc-tpl="74" class="sel">
+                <td data-dc-tpl="75" style="color: rgb(168, 168, 168);"><span class="sc-interp">58</span></td>
+                <td data-dc-tpl="76"><strong data-dc-tpl="77" style="font-weight: 600;"><span class="sc-interp">Daredevil</span></strong><span data-dc-tpl="78" class="sub"><span class="sc-interp">Matt Murdock</span></span></td>
+                <td data-dc-tpl="79"><span class="sc-interp">Ally</span></td>
+                <td data-dc-tpl="80"><span data-dc-tpl="81" class="chip a-just"><span class="sc-interp">Justice</span></span></td>
+                <td data-dc-tpl="82" style="text-align: right;"><span class="sc-interp">4</span></td>
+                <td data-dc-tpl="83" style="color: rgb(197, 197, 197);"><span class="sc-interp">Defender.</span></td>
+                <td data-dc-tpl="84"><span class="sc-interp"></span></td>
+                <td data-dc-tpl="85" style="color: rgb(197, 197, 197);">Core Set</td>
+                <td data-dc-tpl="86" style="text-align: center; color: rgb(96, 205, 255);"><span class="sc-interp">●</span></td>
+              </tr>
+            
+              <tr data-dc-tpl="74" class="">
+                <td data-dc-tpl="75" style="color: rgb(168, 168, 168);"><span class="sc-interp">60</span></td>
+                <td data-dc-tpl="76"><strong data-dc-tpl="77" style="font-weight: 600;"><span class="sc-interp">For Justice!</span></strong><span data-dc-tpl="78" class="sub"><span class="sc-interp"></span></span></td>
+                <td data-dc-tpl="79"><span class="sc-interp">Event</span></td>
+                <td data-dc-tpl="80"><span data-dc-tpl="81" class="chip a-just"><span class="sc-interp">Justice</span></span></td>
+                <td data-dc-tpl="82" style="text-align: right;"><span class="sc-interp">2</span></td>
+                <td data-dc-tpl="83" style="color: rgb(197, 197, 197);"><span class="sc-interp">Thwart.</span></td>
+                <td data-dc-tpl="84"><span class="sc-interp"></span></td>
+                <td data-dc-tpl="85" style="color: rgb(197, 197, 197);">Core Set</td>
+                <td data-dc-tpl="86" style="text-align: center; color: rgb(96, 205, 255);"><span class="sc-interp"></span></td>
+              </tr>
+            
+              <tr data-dc-tpl="74" class="">
+                <td data-dc-tpl="75" style="color: rgb(168, 168, 168);"><span class="sc-interp">66</span></td>
+                <td data-dc-tpl="76"><strong data-dc-tpl="77" style="font-weight: 600;"><span class="sc-interp">Hawkeye</span></strong><span data-dc-tpl="78" class="sub"><span class="sc-interp">Clint Barton</span></span></td>
+                <td data-dc-tpl="79"><span class="sc-interp">Ally</span></td>
+                <td data-dc-tpl="80"><span data-dc-tpl="81" class="chip a-lead"><span class="sc-interp">Leadership</span></span></td>
+                <td data-dc-tpl="82" style="text-align: right;"><span class="sc-interp">3</span></td>
+                <td data-dc-tpl="83" style="color: rgb(197, 197, 197);"><span class="sc-interp">Avenger.</span></td>
+                <td data-dc-tpl="84"><span class="sc-interp"></span></td>
+                <td data-dc-tpl="85" style="color: rgb(197, 197, 197);">Core Set</td>
+                <td data-dc-tpl="86" style="text-align: center; color: rgb(96, 205, 255);"><span class="sc-interp">●</span></td>
+              </tr>
+            
+              <tr data-dc-tpl="74" class="">
+                <td data-dc-tpl="75" style="color: rgb(168, 168, 168);"><span class="sc-interp">73</span></td>
+                <td data-dc-tpl="76"><strong data-dc-tpl="77" style="font-weight: 600;"><span class="sc-interp">The Triskelion</span></strong><span data-dc-tpl="78" class="sub"><span class="sc-interp"></span></span></td>
+                <td data-dc-tpl="79"><span class="sc-interp">Support</span></td>
+                <td data-dc-tpl="80"><span data-dc-tpl="81" class="chip a-lead"><span class="sc-interp">Leadership</span></span></td>
+                <td data-dc-tpl="82" style="text-align: right;"><span class="sc-interp">1</span></td>
+                <td data-dc-tpl="83" style="color: rgb(197, 197, 197);"><span class="sc-interp">Location. S.H.I.E.L.D.</span></td>
+                <td data-dc-tpl="84"><span class="sc-interp"></span></td>
+                <td data-dc-tpl="85" style="color: rgb(197, 197, 197);">Core Set</td>
+                <td data-dc-tpl="86" style="text-align: center; color: rgb(96, 205, 255);"><span class="sc-interp">●</span></td>
+              </tr>
+            
+              <tr data-dc-tpl="74" class="">
+                <td data-dc-tpl="75" style="color: rgb(168, 168, 168);"><span class="sc-interp">76</span></td>
+                <td data-dc-tpl="76"><strong data-dc-tpl="77" style="font-weight: 600;"><span class="sc-interp">Luke Cage</span></strong><span data-dc-tpl="78" class="sub"><span class="sc-interp"></span></span></td>
+                <td data-dc-tpl="79"><span class="sc-interp">Ally</span></td>
+                <td data-dc-tpl="80"><span data-dc-tpl="81" class="chip a-prot"><span class="sc-interp">Protection</span></span></td>
+                <td data-dc-tpl="82" style="text-align: right;"><span class="sc-interp">4</span></td>
+                <td data-dc-tpl="83" style="color: rgb(197, 197, 197);"><span class="sc-interp">Defender.</span></td>
+                <td data-dc-tpl="84"><span class="sc-interp"></span></td>
+                <td data-dc-tpl="85" style="color: rgb(197, 197, 197);">Core Set</td>
+                <td data-dc-tpl="86" style="text-align: center; color: rgb(96, 205, 255);"><span class="sc-interp">●</span></td>
+              </tr>
+            
+              <tr data-dc-tpl="74" class="">
+                <td data-dc-tpl="75" style="color: rgb(168, 168, 168);"><span class="sc-interp">81</span></td>
+                <td data-dc-tpl="76"><strong data-dc-tpl="77" style="font-weight: 600;"><span class="sc-interp">Armored Vest</span></strong><span data-dc-tpl="78" class="sub"><span class="sc-interp"></span></span></td>
+                <td data-dc-tpl="79"><span class="sc-interp">Upgrade</span></td>
+                <td data-dc-tpl="80"><span data-dc-tpl="81" class="chip a-prot"><span class="sc-interp">Protection</span></span></td>
+                <td data-dc-tpl="82" style="text-align: right;"><span class="sc-interp">1</span></td>
+                <td data-dc-tpl="83" style="color: rgb(197, 197, 197);"><span class="sc-interp">Armor.</span></td>
+                <td data-dc-tpl="84"><span class="sc-interp"></span></td>
+                <td data-dc-tpl="85" style="color: rgb(197, 197, 197);">Core Set</td>
+                <td data-dc-tpl="86" style="text-align: center; color: rgb(96, 205, 255);"><span class="sc-interp"></span></td>
+              </tr>
+            
+              <tr data-dc-tpl="74" class="">
+                <td data-dc-tpl="75" style="color: rgb(168, 168, 168);"><span class="sc-interp">84</span></td>
+                <td data-dc-tpl="76"><strong data-dc-tpl="77" style="font-weight: 600;"><span class="sc-interp">Nick Fury</span></strong><span data-dc-tpl="78" class="sub"><span class="sc-interp"></span></span></td>
+                <td data-dc-tpl="79"><span class="sc-interp">Ally</span></td>
+                <td data-dc-tpl="80"><span data-dc-tpl="81" class="chip a-basic"><span class="sc-interp">Basic</span></span></td>
+                <td data-dc-tpl="82" style="text-align: right;"><span class="sc-interp">4</span></td>
+                <td data-dc-tpl="83" style="color: rgb(197, 197, 197);"><span class="sc-interp">S.H.I.E.L.D. Spy.</span></td>
+                <td data-dc-tpl="84"><span class="sc-interp"></span></td>
+                <td data-dc-tpl="85" style="color: rgb(197, 197, 197);">Core Set</td>
+                <td data-dc-tpl="86" style="text-align: center; color: rgb(96, 205, 255);"><span class="sc-interp">●</span></td>
+              </tr>
+            
+              <tr data-dc-tpl="74" class="">
+                <td data-dc-tpl="75" style="color: rgb(168, 168, 168);"><span class="sc-interp">88</span></td>
+                <td data-dc-tpl="76"><strong data-dc-tpl="77" style="font-weight: 600;"><span class="sc-interp">Energy</span></strong><span data-dc-tpl="78" class="sub"><span class="sc-interp"></span></span></td>
+                <td data-dc-tpl="79"><span class="sc-interp">Resource</span></td>
+                <td data-dc-tpl="80"><span data-dc-tpl="81" class="chip a-basic"><span class="sc-interp">Basic</span></span></td>
+                <td data-dc-tpl="82" style="text-align: right;"><span class="sc-interp">—</span></td>
+                <td data-dc-tpl="83" style="color: rgb(197, 197, 197);"><span class="sc-interp"></span></td>
+                <td data-dc-tpl="84"><span class="sc-interp"></span></td>
+                <td data-dc-tpl="85" style="color: rgb(197, 197, 197);">Core Set</td>
+                <td data-dc-tpl="86" style="text-align: center; color: rgb(96, 205, 255);"><span class="sc-interp"></span></td>
+              </tr>
+            
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div></div></div></div>
+
+
+
+</body></html>

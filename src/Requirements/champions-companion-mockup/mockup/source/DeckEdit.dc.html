@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Deck editor</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;background:#07070c;color:#ffffff;font-family:"Segoe UI Variable Text","Segoe UI",system-ui,sans-serif;font-size:14px}
+a{color:#60cdff}a:hover{color:#99ebff}
+.navi{display:flex;align-items:center;gap:12px;height:40px;padding:0 12px;border-radius:6px;color:#ffffff;text-decoration:none;position:relative}
+.navi.on{background:rgba(0,0,0,0.55)}
+.navi.on::before{content:"";position:absolute;left:0;top:12px;bottom:12px;width:3px;border-radius:2px;background:#60cdff}
+.btn{height:32px;padding:0 14px;border-radius:4px;border:1px solid #3d3d3d;background:#1c1c1c;color:#ffffff;font:inherit;display:inline-flex;align-items:center;gap:8px;cursor:pointer;text-decoration:none}
+.btn.acc{background:#60cdff;border-color:#60cdff;color:#000000;font-weight:600}
+.btn[disabled]{color:#6f6f6f;background:#161616;border-color:#333333;cursor:default}
+.qb{width:28px;height:28px;padding:0;justify-content:center}
+.field{display:flex;flex-direction:column;gap:6px;font-size:12px;color:#c5c5c5;min-width:0}
+.in{height:32px;box-sizing:border-box;border-radius:4px;border:1px solid #3d3d3d;border-bottom-color:#8a8a8a;background:#1c1c1c;color:#ffffff;font:inherit;font-size:14px;padding:0 10px;width:100%}
+.seg{display:inline-flex;flex-wrap:wrap;border:1px solid #3d3d3d;border-radius:4px;overflow:hidden}
+.seg button{height:30px;padding:0 14px;border:0;background:#1c1c1c;color:#ffffff;font:inherit;display:inline-flex;align-items:center;gap:6px}
+.seg button.on{background:#f2c94c;color:#000000;font-weight:600}
+.chip{display:inline-flex;align-items:center;height:20px;padding:0 7px;border-radius:10px;font-size:11px;font-weight:600;color:#000000;white-space:nowrap}
+.a-just{background:#f2c94c}.a-basic{background:#cfcfcf}.a-hero{background:#d9b8ff}
+.panel{display:flex;flex-direction:column;gap:10px;padding:16px;border-radius:8px;background:#101010;border:1px solid #333333;min-width:0}
+.panel h2{margin:0;font-size:16px;font-weight:600}
+.r{display:flex;align-items:center;gap:10px;min-height:36px;padding:2px 8px;border-radius:6px}
+.r:hover{background:#1e1e1e}
+.r .nm{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.r .mt{font-size:12px;color:#a8a8a8;white-space:nowrap}
+.grp{font-size:12px;font-weight:600;color:#c5c5c5;text-transform:uppercase;letter-spacing:0.04em;padding:10px 8px 2px}
+.hero{background:#2f2a3a}
+.q{min-width:24px;text-align:center;font-weight:600}
+.lim{font-size:12px;color:#a8a8a8;min-width:44px;text-align:right;white-space:nowrap}
+.lim.full{color:#fcd770}
+.r.used{background:#0f2a3a}
+.r.used:hover{background:#13344a}
+.r.used .lim{color:#7fd0ff;font-weight:600}
+.r.used .lim.full{color:#fcd770}
+.win{background:#43415A}
+.navcol{background:linear-gradient(180deg,#43415A 0%,#646066 100%)}
+.content{background:#07070c url(/_blob/0dfe821c775d9ff1723d0f6b5bb7dcc6) center top / cover no-repeat}
+</style>
+</helmet>
+<div class="win" style="display: flex; flex-direction: column; min-height: 980px">
+  <div style="height: 32px; display: flex; align-items: center; gap: 10px; padding: 0 0 0 14px; font-size: 12px; color: #c5c5c5">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60cdff" stroke-width="2" aria-hidden="true"><path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5l8-3z"></path></svg>
+    <span>Champions Companion</span>
+  </div>
+  <div style="display: flex; flex-wrap: wrap; flex: 1">
+    <nav aria-label="Main" class="navcol" style="flex: 1 1 200px; max-width: 260px; padding: 4px 8px; display: flex; flex-direction: column; gap: 2px">
+      <button class="btn" aria-label="Collapse menu" style="width: 40px; justify-content: center; padding: 0; border: 0; background: transparent">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"></path></svg>
+      </button>
+      <a class="navi" href="Main.dc.html">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.8" aria-hidden="true"><rect x="4" y="3" width="12" height="16" rx="2"></rect><path d="M8 21h10a2 2 0 0 0 2-2V7"></path></svg>
+        Cards
+      </a>
+      <a class="navi on" href="Decks.dc.html" aria-current="page">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.8" aria-hidden="true"><rect x="3" y="7" width="13" height="14" rx="2"></rect><path d="M7 3h12a2 2 0 0 1 2 2v12"></path></svg>
+        Decks
+      </a>
+      </nav>
+    <main class="content" style="flex: 999 1 560px; min-width: 0; padding: 24px 32px; display: flex; flex-direction: column; gap: 16px; box-sizing: border-box">
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px">
+        <a class="btn" href="Decks.dc.html" aria-label="Back to decks" style="width: 36px; padding: 0; justify-content: center; background: transparent; border-color: transparent">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>
+        </a>
+        <h1 style="margin: 0; font-size: 26px; font-weight: 600">Edit deck</h1>
+        <div style="flex: 1"></div>
+        <span style="font-size: 12px; color: #c5c5c5">Will be saved as incomplete</span>
+        <a class="btn" href="Decks.dc.html">Cancel</a>
+        <button class="btn acc">Save</button>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end; padding: 16px; border-radius: 8px; background: #101010; border: 1px solid #333333">
+        <div style="display: flex; flex-direction: column; gap: 6px; align-items: center; flex: none">
+          <img src="/_blob/7fa98f8337b3d6faa06371dc4048bc79" alt="Deck image" style="width: 72px; height: 100px; border-radius: 6px; object-fit: cover">
+          <button class="btn" style="height: 28px; padding: 0 10px; font-size: 12px">Change image…</button>
+        </div>
+        <label class="field" style="flex: 2 1 220px">Deck name *
+          <input class="in" value="Spidey Justice">
+        </label>
+        <label class="field" style="flex: 1 1 200px">Hero *
+          <select class="in"><option>Spider-Man (Peter Parker)</option></select>
+        </label>
+        <div class="field" style="flex: 2 1 360px">Aspect *
+          <div class="seg" role="radiogroup" aria-label="Aspect">
+            <button role="radio" aria-checked="true" class="on">Justice</button>
+            <button role="radio" aria-checked="false">Aggression</button>
+            <button role="radio" aria-checked="false">Protection</button>
+            <button role="radio" aria-checked="false">Leadership</button>
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 16px; padding: 12px 16px; border-radius: 8px; background: #3a3220; border: 1px solid #5c4c22">
+        <div style="display: flex; align-items: baseline; gap: 6px">
+          <strong style="font-size: 24px">38</strong><span style="color: #e8dcc0">/ 40–50 cards</span>
+        </div>
+        <div style="flex: 1 1 200px; height: 6px; border-radius: 3px; background: #4d4532; position: relative; overflow: hidden" role="progressbar" aria-label="Deck size" aria-valuenow="38" aria-valuemin="0" aria-valuemax="50">
+          <div style="position: absolute; left: 0; top: 0; height: 6px; width: 76%; background: #fcd770; border-radius: 3px"></div>
+          <div style="position: absolute; left: 80%; top: 0; width: 2px; height: 6px; background: #f5f5f5"></div>
+        </div>
+        <span style="display: inline-flex; height: 24px; align-items: center; padding: 0 10px; border-radius: 12px; background: #4a3a14; color: #fcd770; font-size: 12px; font-weight: 600">Incomplete</span>
+        <span style="font-size: 13px; color: #f5e3b8">S2: 38 cards. Add at least 2 more.</span>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start">
+        <section class="panel" style="flex: 1 1 420px" aria-label="Card browser">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap">
+            <h2>Add cards</h2>
+            <span style="font-size: 12px; color: #c5c5c5">Basic and Justice only · <span style="display: inline-block; width: 10px; height: 10px; border-radius: 2px; background: #0f2a3a; border: 1px solid #2f6f94; vertical-align: -1px"></span> already in deck</span>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px">
+            <label class="field" style="flex: 2 1 160px">Name
+              <input class="in" type="search" placeholder="Search">
+            </label>
+            <label class="field" style="flex: 1 1 110px">Type
+              <select class="in"><option>All</option></select>
+            </label>
+            <label class="field" style="flex: 1 1 90px">Cost
+              <select class="in"><option>Any</option></select>
+            </label>
+          </div>
+          <div style="display: flex; flex-direction: column">
+            <sc-for list="{{pool}}" as="c" hint-placeholder-count="9">
+              <div class="r {{c.usedCls}}">
+                <span class="nm">{{c.name}}</span>
+                <span class="mt">{{c.type}} · {{c.cost}}</span>
+                <span class="chip {{c.cls}}">{{c.asp}}</span>
+                <span class="lim {{c.limCls}}" title="{{c.limTip}}">{{c.inDeck}} / {{c.limit}}</span>
+                <sc-if value="{{c.full}}" hint-placeholder-val="{{false}}">
+                  <button class="btn qb" disabled="disabled" aria-label="Limit reached for {{c.name}}">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+                  </button>
+                </sc-if>
+                <sc-if value="{{c.open}}" hint-placeholder-val="{{true}}">
+                  <button class="btn qb" aria-label="Add {{c.name}}">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+                  </button>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+
+        <section class="panel" style="flex: 1 1 420px" aria-label="Deck contents">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px">
+            <h2>In this deck</h2>
+            <span style="font-size: 12px; color: #c5c5c5">38 cards</span>
+          </div>
+
+          <div class="grp">Spider-Man hero cards · 15 · locked</div>
+          <sc-for list="{{heroCards}}" as="c" hint-placeholder-count="8">
+            <div class="r hero">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d9b8ff" stroke-width="2" aria-label="Locked hero card" role="img"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>
+              <span class="nm">{{c.name}}</span>
+              <span class="mt">{{c.type}}</span>
+              <span class="q" style="width: 94px; text-align: right">× {{c.q}}</span>
+            </div>
+          </sc-for>
+
+          <sc-for list="{{groups}}" as="g" hint-placeholder-count="5">
+            <div class="grp">{{g.title}}</div>
+            <sc-for list="{{g.cards}}" as="c" hint-placeholder-count="3">
+              <div class="r">
+                <span class="chip {{c.cls}}">{{c.asp}}</span>
+                <span class="nm">{{c.name}}</span>
+                <button class="btn qb" aria-label="Remove one {{c.name}}">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="M5 12h14"></path></svg>
+                </button>
+                <span class="q">{{c.q}}</span>
+                <sc-if value="{{c.full}}" hint-placeholder-val="{{false}}">
+                  <button class="btn qb" disabled="disabled" aria-label="Limit reached for {{c.name}}">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+                  </button>
+                </sc-if>
+                <sc-if value="{{c.open}}" hint-placeholder-val="{{true}}">
+                  <button class="btn qb" aria-label="Add one {{c.name}}">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+                  </button>
+                </sc-if>
+              </div>
+            </sc-for>
+          </sc-for>
+        </section>
+      </div>
+    </main>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":980}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const C = { Justice: 'a-just', Basic: 'a-basic' };
+    const pool = [
+      ['Avengers Mansion', 'Support', 4, 'Basic', 0, 3],
+      ['Daredevil', 'Ally', 4, 'Justice', 1, 1],
+      ['Emergency', 'Event', 0, 'Basic', 2, 3],
+      ['Energy', 'Resource', '—', 'Basic', 1, 1],
+      ['For Justice!', 'Event', 2, 'Justice', 3, 3],
+      ['Helicarrier', 'Support', 3, 'Basic', 0, 3],
+      ['Heroic Intuition', 'Upgrade', 2, 'Justice', 2, 3],
+      ['Jessica Jones', 'Ally', 3, 'Justice', 1, 1],
+      ['Tenacity', 'Upgrade', 2, 'Basic', 0, 3]
+    ].map(r => ({
+      name: r[0], type: r[1], cost: r[2], asp: r[3], cls: C[r[3]], inDeck: r[4], limit: r[5],
+      full: r[4] >= r[5], open: r[4] < r[5], limCls: r[4] >= r[5] ? 'full' : '', usedCls: r[4] > 0 ? 'used' : '',
+      limTip: r[4] >= r[5] ? 'Deck limit reached (S5)' : 'In deck / deck limit'
+    }));
+    const heroCards = [
+      ['Black Cat', 'Ally', 1], ['Backflip', 'Event', 2], ['Enhanced Spider-Sense', 'Event', 2], ['Swinging Web Kick', 'Event', 3],
+      ['Aunt May', 'Support', 1], ['Spider-Tracer', 'Upgrade', 2], ['Web-Shooter', 'Upgrade', 2], ['Webbed Up', 'Upgrade', 2]
+    ].map(r => ({ name: r[0], type: r[1], q: r[2] }));
+    const mk = (title, rows) => ({
+      title, cards: rows.map(r => ({ name: r[0], asp: r[1], cls: C[r[1]], q: r[2], full: r[2] >= r[3], open: r[2] < r[3] }))
+    });
+    const groups = [
+      mk('Allies · 4', [['Daredevil', 'Justice', 1, 1], ['Jessica Jones', 'Justice', 1, 1], ['Mockingbird', 'Basic', 1, 1], ['Nick Fury', 'Basic', 1, 1]]),
+      mk('Events · 12', [['For Justice!', 'Justice', 3, 3], ['Great Responsibility', 'Justice', 2, 3], ['Emergency', 'Basic', 2, 3], ['First Aid', 'Basic', 2, 3], ['Haymaker', 'Basic', 3, 3]]),
+      mk('Resources · 3', [['Energy', 'Basic', 1, 1], ['Genius', 'Basic', 1, 1], ['Strength', 'Basic', 1, 1]]),
+      mk('Supports · 2', [['Interrogation Room', 'Justice', 1, 3], ['Surveillance Team', 'Justice', 1, 3]]),
+      mk('Upgrades · 2', [['Heroic Intuition', 'Justice', 2, 3]])
+    ];
+    return { pool, heroCards, groups };
+  }
+}
+</script>
+</body>
+</html>

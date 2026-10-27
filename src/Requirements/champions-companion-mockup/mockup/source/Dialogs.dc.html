@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Confirmation dialogs</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;font-family:"Segoe UI Variable Text","Segoe UI",system-ui,sans-serif}
+.dlg{display:flex;flex-direction:column;border-radius:8px;background:#101010;border:1px solid #454545;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.5)}
+.dlg .bd{padding:24px;display:flex;flex-direction:column;gap:12px;flex:1}
+.dlg h2{margin:0;font-size:20px;font-weight:600;color:#ffffff}
+.dlg p{margin:0;font-size:14px;line-height:1.5;color:#e0e0e0}
+.dlg .ft{padding:20px 24px;background:#0a0a0a;border-top:1px solid #3d3d3d;display:grid;grid-template-columns:repeat(auto-fit,minmax(0,1fr));gap:8px}
+.btn{height:32px;padding:0 14px;border-radius:4px;border:1px solid #3d3d3d;background:#1c1c1c;color:#ffffff;font:inherit;font-size:14px;cursor:pointer}
+.btn.acc{background:#60cdff;border-color:#60cdff;color:#000000;font-weight:600}
+.btn.dng{background:#ff99a4;border-color:#ff99a4;color:#000000;font-weight:600}
+.tag{font-size:12px;font-weight:600;color:#c5c5c5;text-transform:uppercase;letter-spacing:0.04em}
+ul{margin:0;padding-left:20px;color:#e0e0e0;font-size:14px;line-height:1.6}
+</style>
+</helmet>
+<div style="width: 1280px; height: 980px; box-sizing: border-box; padding: 40px; background: #161616; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; align-content: start">
+
+  <div style="display: flex; flex-direction: column; gap: 8px">
+    <span class="tag">D.1 · Delete deck (has non-hero cards)</span>
+    <div class="dlg" role="dialog" aria-labelledby="d1">
+      <div class="bd">
+        <h2 id="d1">Delete "Spidey Justice"?</h2>
+        <p>This deck has 30 cards besides Spider-Man's hero cards. Deleting it can't be undone.</p>
+      </div>
+      <div class="ft"><button class="btn dng">Delete</button><button class="btn">Cancel</button></div>
+    </div>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 8px">
+    <span class="tag">D.2 · Change hero</span>
+    <div class="dlg" role="dialog" aria-labelledby="d2">
+      <div class="bd">
+        <h2 id="d2">Change hero to Iron Man?</h2>
+        <p>Spider-Man's 15 hero cards will be replaced by Iron Man's 15 hero cards. Your other 23 cards stay in the deck.</p>
+      </div>
+      <div class="ft"><button class="btn acc">Change hero</button><button class="btn">Cancel</button></div>
+    </div>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 8px">
+    <span class="tag">D.2 · Change aspect (rule S4)</span>
+    <div class="dlg" role="dialog" aria-labelledby="d3">
+      <div class="bd">
+        <h2 id="d3">Switch from Justice to Protection?</h2>
+        <p>11 cards in this deck are Justice cards. A Protection deck can't use them.</p>
+      </div>
+      <div class="ft"><button class="btn acc">Remove 11 cards</button><button class="btn">Keep them (incomplete)</button><button class="btn">Cancel</button></div>
+    </div>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 8px">
+    <span class="tag">C.4 · Delete card blocked</span>
+    <div class="dlg" role="alertdialog" aria-labelledby="d4">
+      <div class="bd">
+        <h2 id="d4">"Web Ambush" can't be deleted</h2>
+        <p>It is used in these decks. Remove it from them first.</p>
+        <ul><li>Spidey Justice (2 copies)</li><li>Miles test (1 copy)</li></ul>
+      </div>
+      <div class="ft"><button class="btn acc">OK</button></div>
+    </div>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 8px">
+    <span class="tag">C.4 · Delete card (created in the app, unused)</span>
+    <div class="dlg" role="dialog" aria-labelledby="d5">
+      <div class="bd">
+        <h2 id="d5">Delete "Web Ambush"?</h2>
+        <p>This card isn't in any deck. Deleting it can't be undone.</p>
+      </div>
+      <div class="ft"><button class="btn dng">Delete</button><button class="btn">Cancel</button></div>
+    </div>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 8px">
+    <span class="tag">B · Leaving an edit page with unsaved changes</span>
+    <div class="dlg" role="dialog" aria-labelledby="d6">
+      <div class="bd">
+        <h2 id="d6">Save your changes?</h2>
+        <p>You changed "Spidey Justice". If you leave now, those changes are lost.</p>
+      </div>
+      <div class="ft"><button class="btn acc">Save</button><button class="btn">Don't save</button><button class="btn">Cancel</button></div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":980}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

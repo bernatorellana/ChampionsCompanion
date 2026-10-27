@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Cards, grid mode</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;background:#07070c;color:#ffffff;font-family:"Segoe UI Variable Text","Segoe UI",system-ui,sans-serif;font-size:14px}
+a{color:#60cdff}a:hover{color:#99ebff}
+.navi{display:flex;align-items:center;gap:12px;height:40px;padding:0 12px;border-radius:6px;color:#ffffff;text-decoration:none;position:relative}
+.navi.on{background:rgba(0,0,0,0.55)}
+.navi.on::before{content:"";position:absolute;left:0;top:12px;bottom:12px;width:3px;border-radius:2px;background:#60cdff}
+.btn{height:32px;padding:0 14px;border-radius:4px;border:1px solid #3d3d3d;background:#1c1c1c;color:#ffffff;font:inherit;display:inline-flex;align-items:center;gap:8px;cursor:pointer}
+.btn.acc{background:#60cdff;border-color:#60cdff;color:#000000;font-weight:600}
+.seg{display:inline-flex;border:1px solid #3d3d3d;border-radius:4px;overflow:hidden}
+.seg button{height:30px;padding:0 14px;border:0;background:#1c1c1c;color:#ffffff;font:inherit;display:inline-flex;align-items:center;gap:6px}
+.seg button.on{background:#60cdff;color:#000000;font-weight:600}
+.field{display:flex;flex-direction:column;gap:6px;font-size:12px;color:#c5c5c5}
+.in{height:32px;box-sizing:border-box;border-radius:4px;border:1px solid #3d3d3d;border-bottom-color:#8a8a8a;background:#1c1c1c;color:#ffffff;font:inherit;font-size:14px;padding:0 10px}
+.in[disabled]{color:#8a8a8a;border-bottom-color:#3d3d3d}
+.chip{display:inline-flex;align-items:center;height:22px;padding:0 8px;border-radius:11px;font-size:12px;font-weight:600;color:#000000;white-space:nowrap}
+.a-just{background:#f2c94c}.a-aggr{background:#ff9a8f}.a-prot{background:#7fd99a}.a-lead{background:#8fc9ff}.a-basic{background:#cfcfcf}.a-hero{background:#d9b8ff}
+table{border-collapse:collapse;width:100%;min-width:900px}
+th{text-align:left;font-weight:600;font-size:12px;color:#c5c5c5;padding:0 12px;height:36px;border-bottom:1px solid #3d3d3d;white-space:nowrap}
+td{padding:0 12px;height:40px;border-bottom:1px solid #313131;white-space:nowrap}
+tr.sel td{background:#33414a}
+.sub{color:#a8a8a8;font-size:12px;margin-left:6px}
+.win{background:#43415A}
+.navcol{background:linear-gradient(180deg,#43415A 0%,#646066 100%)}
+.content{background:#07070c url(/_blob/0dfe821c775d9ff1723d0f6b5bb7dcc6) center top / cover no-repeat}
+</style>
+</helmet>
+<div class="win" style="display: flex; flex-direction: column; min-height: 800px">
+  <div style="height: 32px; display: flex; align-items: center; gap: 10px; padding: 0 0 0 14px; font-size: 12px; color: #c5c5c5">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60cdff" stroke-width="2" aria-hidden="true"><path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5l8-3z"></path></svg>
+    <span>Champions Companion</span>
+  </div>
+  <div style="display: flex; flex-wrap: wrap; flex: 1">
+    <nav aria-label="Main" class="navcol" style="flex: 1 1 200px; max-width: 260px; padding: 4px 8px; display: flex; flex-direction: column; gap: 2px">
+      <button class="btn" aria-label="Collapse menu" style="width: 40px; justify-content: center; padding: 0; border: 0; background: transparent">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"></path></svg>
+      </button>
+      <a class="navi on" href="Main.dc.html" aria-current="page">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.8" aria-hidden="true"><rect x="4" y="3" width="12" height="16" rx="2"></rect><path d="M8 21h10a2 2 0 0 0 2-2V7"></path></svg>
+        Cards
+      </a>
+      <a class="navi" href="Decks.dc.html">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.8" aria-hidden="true"><rect x="3" y="7" width="13" height="14" rx="2"></rect><path d="M7 3h12a2 2 0 0 1 2 2v12"></path></svg>
+        Decks
+      </a>
+      </nav>
+    <main class="content" style="flex: 999 1 560px; min-width: 0; padding: 28px 32px; display: flex; flex-direction: column; gap: 20px; box-sizing: border-box">
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 16px">
+        <h1 style="margin: 0; font-size: 28px; font-weight: 600">Cards</h1>
+        <div style="flex: 1"></div>
+        <div class="seg" role="group" aria-label="Display mode">
+          <button class="on" aria-pressed="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"></path></svg>Grid</button>
+          <button aria-pressed="false">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="7" height="16" rx="1"></rect><path d="M14 7h7M14 12h7M14 17h5"></path></svg>Cards</button>
+        </div>
+        <a class="btn acc" href="CardEdit.dc.html" style="text-decoration: none">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>New card</a>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; align-items: flex-end; gap: 12px">
+        <label class="field" style="flex: 2 1 220px">Name or subtitle
+          <input class="in" type="search" placeholder="Search cards">
+        </label>
+        <label class="field" style="flex: 1 1 140px">Aspect
+          <select class="in"><option>All</option></select>
+        </label>
+        <label class="field" style="flex: 1 1 140px">Type
+          <select class="in"><option>All</option></select>
+        </label>
+        <label class="field" style="flex: 1 1 110px">Cost
+          <select class="in"><option>Any</option></select>
+        </label>
+        <label class="field" style="flex: 1 1 160px">Pack
+          <select class="in"><option>Core Set</option></select>
+        </label>
+        <label class="field" style="flex: 1 1 140px">Hero
+          <select class="in" disabled="disabled"><option>Only for Hero aspect</option></select>
+        </label>
+        <button class="btn" style="background: transparent; border-color: transparent; color: #60cdff">Clear filters</button>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 12px; font-size: 13px; color: #c5c5c5">
+        <span><strong style="color: #ffffff">91</strong> cards</span>
+        <span style="color: #8a8a8a">·</span>
+        <span>Sorted by # (pack position). Double-click a row to edit.</span>
+      </div>
+
+      <div style="overflow-x: auto; border: 1px solid #333333; border-radius: 8px; background: #101010">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 56px">#&#160;▲</th><th>Name</th><th>Type</th><th>Aspect</th><th style="text-align: right">Cost</th><th>Traits</th><th>Hero</th><th>Pack</th><th style="text-align: center">Unique</th>
+            </tr>
+          </thead>
+          <tbody>
+            <sc-for list="{{rows}}" as="r" hint-placeholder-count="14">
+              <tr class="{{r.rowCls}}">
+                <td style="color: #a8a8a8">{{r.pos}}</td>
+                <td><strong style="font-weight: 600">{{r.name}}</strong><span class="sub">{{r.sub}}</span></td>
+                <td>{{r.type}}</td>
+                <td><span class="chip {{r.cls}}">{{r.asp}}</span></td>
+                <td style="text-align: right">{{r.cost}}</td>
+                <td style="color: #c5c5c5">{{r.traits}}</td>
+                <td>{{r.hero}}</td>
+                <td style="color: #c5c5c5">Core Set</td>
+                <td style="text-align: center; color: #60cdff">{{r.uniq}}</td>
+              </tr>
+            </sc-for>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":800}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const C = { Hero: 'a-hero', Aggression: 'a-aggr', Justice: 'a-just', Leadership: 'a-lead', Protection: 'a-prot', Basic: 'a-basic' };
+    const raw = [
+      [2, 'Black Cat', 'Felicia Hardy', 'Ally', 'Hero', '2', 'Hero for Hire.', 'Spider-Man', 1],
+      [3, 'Backflip', '', 'Event', 'Hero', '0', 'Defense. Skill.', 'Spider-Man', 0],
+      [4, 'Enhanced Spider-Sense', '', 'Event', 'Hero', '1', 'Superpower.', 'Spider-Man', 0],
+      [5, 'Swinging Web Kick', '', 'Event', 'Hero', '3', 'Aerial. Attack. Superpower.', 'Spider-Man', 0],
+      [6, 'Aunt May', '', 'Support', 'Hero', '1', 'Persona.', 'Spider-Man', 1],
+      [44, 'Vibranium', '', 'Resource', 'Hero', '—', '', 'Black Panther', 0],
+      [50, 'Hulk', 'Bruce Banner', 'Ally', 'Aggression', '2', 'Avenger. Gamma.', '', 1],
+      [52, 'Chase Them Down', '', 'Event', 'Aggression', '0', 'Thwart.', '', 0],
+      [58, 'Daredevil', 'Matt Murdock', 'Ally', 'Justice', '4', 'Defender.', '', 1],
+      [60, 'For Justice!', '', 'Event', 'Justice', '2', 'Thwart.', '', 0],
+      [66, 'Hawkeye', 'Clint Barton', 'Ally', 'Leadership', '3', 'Avenger.', '', 1],
+      [73, 'The Triskelion', '', 'Support', 'Leadership', '1', 'Location. S.H.I.E.L.D.', '', 1],
+      [76, 'Luke Cage', '', 'Ally', 'Protection', '4', 'Defender.', '', 1],
+      [81, 'Armored Vest', '', 'Upgrade', 'Protection', '1', 'Armor.', '', 0],
+      [84, 'Nick Fury', '', 'Ally', 'Basic', '4', 'S.H.I.E.L.D. Spy.', '', 1],
+      [88, 'Energy', '', 'Resource', 'Basic', '—', '', '', 0]
+    ];
+    const rows = raw.map((r, i) => ({
+      pos: r[0], name: r[1], sub: r[2], type: r[3], asp: r[4], cls: C[r[4]], cost: r[5], traits: r[6], hero: r[7],
+      uniq: r[8] ? '●' : '', rowCls: i === 8 ? 'sel' : ''
+    }));
+    return { rows };
+  }
+}
+</script>
+</body>
+</html>

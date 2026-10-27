@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Splash, database unreachable</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;font-family:"Segoe UI Variable Text","Segoe UI",system-ui,sans-serif}
+.btn{height:32px;padding:0 16px;border-radius:4px;border:1px solid #3d3d3d;background:#1c1c1c;color:#ffffff;font:inherit;font-size:14px;cursor:pointer}
+.btn.acc{background:#60cdff;border-color:#60cdff;color:#000000;font-weight:600}
+</style>
+</helmet>
+<div style="width: 720px; height: 405px; box-sizing: border-box; position: relative; border-radius: 8px; overflow: hidden; border: 1px solid #3d3d3d; background: #000000; color: #ffffff">
+  <img src="/_blob/c2ad57e65d0ed410909607e175e5ec27" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.35">
+  <div style="position: absolute; left: 0; right: 0; bottom: 0; padding: 18px 24px 20px; background: rgba(0, 0, 0, 0.88); display: flex; flex-direction: column; gap: 12px">
+    <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px">
+      <span style="font-size: 20px; font-weight: 600">Champions Companion</span>
+      <span style="font-size: 12px; color: #c5c5c5">Version 1.0 · Phase 2</span>
+    </div>
+    <div role="alert" style="display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px; border-radius: 6px; background: #3a1f1e; border: 1px solid #6b3a38">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffb3ad" stroke-width="2" aria-hidden="true" style="flex: none"><circle cx="12" cy="12" r="10"></circle><path d="M12 7v6M12 17h.01"></path></svg>
+      <div style="display: flex; flex-direction: column; gap: 4px">
+        <div style="font-size: 15px; font-weight: 600">Can't connect to the card database</div>
+        <div style="font-size: 13px; color: #e6c9c7; line-height: 1.45">The server at localhost:3306 didn't answer. Check that MariaDB is running and that the connection string in appsettings.json is correct.</div>
+      </div>
+    </div>
+    <div style="display: flex; justify-content: flex-end; gap: 8px">
+      <button class="btn">Exit</button>
+      <button class="btn acc">Retry</button>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":720,"height":405}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

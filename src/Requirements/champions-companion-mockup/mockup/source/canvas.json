@@ -1,0 +1,130 @@
+{
+  "v": 3,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-10-20T18:30:00Z"
+  },
+  "title": "Marvel Champions Companion UI",
+  "launch": {
+    "view": "canvas"
+  },
+  "pages": [],
+  "boards": {
+    "Splash.dc.html": {
+      "x": 0,
+      "y": 260,
+      "w": 720,
+      "h": 405,
+      "title": "A \u00b7 Splash: loading"
+    },
+    "SplashError.dc.html": {
+      "x": 800,
+      "y": 260,
+      "w": 720,
+      "h": 405,
+      "title": "A \u00b7 Splash: database unreachable"
+    },
+    "Main.dc.html": {
+      "x": 0,
+      "y": 1000,
+      "w": 1280,
+      "h": 800,
+      "title": "C.1 \u00b7 Cards, grid mode (default page)",
+      "expand": "fill"
+    },
+    "CardsGallery.dc.html": {
+      "x": 1360,
+      "y": 1000,
+      "w": 1280,
+      "h": 1250,
+      "title": "C.1 \u00b7 Cards, card mode",
+      "expand": "fill"
+    },
+    "CardEdit.dc.html": {
+      "x": 0,
+      "y": 2630,
+      "w": 1280,
+      "h": 1450,
+      "title": "C.2 / C.3 \u00b7 Edit card",
+      "expand": "fill"
+    },
+    "Dialogs.dc.html": {
+      "x": 1360,
+      "y": 2630,
+      "w": 1280,
+      "h": 980,
+      "title": "Confirmation dialogs"
+    },
+    "Decks.dc.html": {
+      "x": 0,
+      "y": 4460,
+      "w": 1280,
+      "h": 800,
+      "title": "D.1 \u00b7 Deck list",
+      "expand": "fill"
+    },
+    "DeckEdit.dc.html": {
+      "x": 1360,
+      "y": 4460,
+      "w": 1280,
+      "h": 1800,
+      "title": "D.2 \u00b7 Deck editor",
+      "expand": "fill"
+    }
+  },
+  "order": [
+    "Main.dc.html",
+    "Splash.dc.html",
+    "SplashError.dc.html",
+    "CardsGallery.dc.html",
+    "CardEdit.dc.html",
+    "Dialogs.dc.html",
+    "Decks.dc.html",
+    "DeckEdit.dc.html"
+  ],
+  "notes": {
+    "tA": {
+      "x": 0,
+      "y": 0,
+      "text": "A \u00b7 Splash screen",
+      "kind": "title1",
+      "maxW": 1280
+    },
+    "tC1": {
+      "x": 0,
+      "y": 740,
+      "text": "C.1 \u00b7 Card list: two display modes",
+      "kind": "title1",
+      "maxW": 2640
+    },
+    "tC2": {
+      "x": 0,
+      "y": 2370,
+      "text": "C.2\u2013C.4 \u00b7 Card editor and dialogs",
+      "kind": "title1",
+      "maxW": 2640
+    },
+    "tD": {
+      "x": 0,
+      "y": 4200,
+      "text": "D \u00b7 Decks",
+      "kind": "title1",
+      "maxW": 2640
+    },
+    "dec": {
+      "x": 2720,
+      "y": 1000,
+      "w": 400,
+      "fill": "green",
+      "text": "Decided 21 Oct 2026\n\u2022 Splash: status line, no percentage.\n\u2022 Cards: double-click opens the editor; no detail pane.\n\u2022 Card view (CardView + CardTextBlock) must be reused in the editor preview.\n\u2022 Deck editor: + / \u2212 buttons only, no drag & drop; cards already in the deck are highlighted.\n\u2022 No Settings page; the app is fixed to a dark theme.\n\u2022 Card and deck images are chosen from a local folder in their editors."
+    },
+    "bg": {
+      "x": 2720,
+      "y": 1600,
+      "w": 400,
+      "fill": "blue",
+      "text": "Background\nNavigation column: vertical gradient #43415A to #646066 (title bar uses #43415A).\nContent area: nebula_background.jpg, blurred and darkened to about 40% brightness. Panels, cards and lists stay solid black so text keeps its contrast."
+    }
+  },
+  "designSystems": []
+}

@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Edit card</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;background:#07070c;color:#ffffff;font-family:"Segoe UI Variable Text","Segoe UI",system-ui,sans-serif;font-size:14px}
+a{color:#60cdff}a:hover{color:#99ebff}
+.navi{display:flex;align-items:center;gap:12px;height:40px;padding:0 12px;border-radius:6px;color:#ffffff;text-decoration:none;position:relative}
+.navi.on{background:rgba(0,0,0,0.55)}
+.navi.on::before{content:"";position:absolute;left:0;top:12px;bottom:12px;width:3px;border-radius:2px;background:#60cdff}
+.btn{height:32px;padding:0 14px;border-radius:4px;border:1px solid #3d3d3d;background:#1c1c1c;color:#ffffff;font:inherit;display:inline-flex;align-items:center;gap:8px;cursor:pointer;text-decoration:none}
+.btn.acc{background:#60cdff;border-color:#60cdff;color:#000000;font-weight:600}
+.btn[disabled]{color:#8a8a8a;background:#161616;border-color:#333333;cursor:default}
+.btn.acc[disabled]{background:#3b3b3b;border-color:#3b3b3b;color:#a0a0a0}
+.field{display:flex;flex-direction:column;gap:6px;font-size:12px;color:#c5c5c5;min-width:0}
+.in{height:32px;box-sizing:border-box;border-radius:4px;border:1px solid #3d3d3d;border-bottom-color:#8a8a8a;background:#1c1c1c;color:#ffffff;font:inherit;font-size:14px;padding:0 10px;width:100%}
+.in[disabled],.in[readonly]{color:#a0a0a0;border-bottom-color:#3d3d3d;background:#181818}
+.in.err{border-color:#ff99a4;border-bottom-width:2px}
+textarea.in{height:auto;padding:8px 10px;line-height:1.45;resize:vertical}
+.hint{font-size:12px;color:#a8a8a8}
+.errt{font-size:12px;color:#ff99a4;display:flex;gap:6px;align-items:center}
+.sec{display:flex;flex-direction:column;gap:14px;padding:18px 20px;border-radius:8px;background:#101010;border:1px solid #333333}
+.sec h2{margin:0;font-size:15px;font-weight:600}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px}
+.chip{display:inline-flex;align-items:center;height:22px;padding:0 8px;border-radius:11px;font-size:12px;font-weight:600;color:#000000;white-space:nowrap}
+.a-just{background:#f2c94c}
+.rs{display:inline-flex;width:20px;height:20px;border-radius:4px;font-size:11px;font-weight:700;color:#000000;align-items:center;justify-content:center;vertical-align:-3px}
+.r-p{background:#ff9a8f}.r-m{background:#8fc9ff}.r-e{background:#f2c94c}.r-w{background:#7fd99a}
+.tog{display:inline-flex;align-items:center;gap:10px;font-size:14px;color:#ffffff}
+.tog .tr{width:40px;height:20px;border-radius:10px;background:#60cdff;position:relative}
+.tog .tr::after{content:"";position:absolute;right:4px;top:4px;width:12px;height:12px;border-radius:6px;background:#000000}
+.stat{display:inline-flex;flex-direction:column;align-items:center;min-width:44px;padding:4px 8px;border-radius:6px;background:#222222;font-size:11px;color:#c5c5c5}
+.stat strong{font-size:16px;color:#ffffff}
+.win{background:#43415A}
+.navcol{background:linear-gradient(180deg,#43415A 0%,#646066 100%)}
+.content{background:#07070c url(/_blob/0dfe821c775d9ff1723d0f6b5bb7dcc6) center top / cover no-repeat}
+</style>
+</helmet>
+<div class="win" style="display: flex; flex-direction: column; min-height: 980px">
+  <div style="height: 32px; display: flex; align-items: center; gap: 10px; padding: 0 0 0 14px; font-size: 12px; color: #c5c5c5">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60cdff" stroke-width="2" aria-hidden="true"><path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5l8-3z"></path></svg>
+    <span>Champions Companion</span>
+  </div>
+  <div style="display: flex; flex-wrap: wrap; flex: 1">
+    <nav aria-label="Main" class="navcol" style="flex: 1 1 200px; max-width: 260px; padding: 4px 8px; display: flex; flex-direction: column; gap: 2px">
+      <button class="btn" aria-label="Collapse menu" style="width: 40px; justify-content: center; padding: 0; border: 0; background: transparent">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"></path></svg>
+      </button>
+      <a class="navi on" href="Main.dc.html" aria-current="page">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.8" aria-hidden="true"><rect x="4" y="3" width="12" height="16" rx="2"></rect><path d="M8 21h10a2 2 0 0 0 2-2V7"></path></svg>
+        Cards
+      </a>
+      <a class="navi" href="Decks.dc.html">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.8" aria-hidden="true"><rect x="3" y="7" width="13" height="14" rx="2"></rect><path d="M7 3h12a2 2 0 0 1 2 2v12"></path></svg>
+        Decks
+      </a>
+      </nav>
+    <main class="content" style="flex: 999 1 560px; min-width: 0; padding: 24px 32px; display: flex; flex-direction: column; gap: 16px; box-sizing: border-box">
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px">
+        <a class="btn" href="Main.dc.html" aria-label="Back to cards" style="width: 36px; padding: 0; justify-content: center; background: transparent; border-color: transparent">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>
+        </a>
+        <h1 style="margin: 0; font-size: 26px; font-weight: 600">Edit card</h1>
+        <span style="color: #c5c5c5; font-size: 16px">Daredevil · 01058</span>
+        <div style="flex: 1"></div>
+        <button class="btn" disabled="disabled" title="Only cards created in this app can be deleted">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"></path></svg>Delete</button>
+        <a class="btn" href="Main.dc.html">Cancel</a>
+        <button class="btn acc" disabled="disabled">Save</button>
+      </div>
+
+      <div role="status" style="display: flex; gap: 12px; align-items: flex-start; padding: 12px 16px; border-radius: 6px; background: #433519; border: 1px solid #6b5520; font-size: 13px; color: #f5e3b8">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fcd770" stroke-width="2" aria-hidden="true" style="flex: none"><path d="M12 3l10 18H2L12 3z"></path><path d="M12 10v5M12 18h.01"></path></svg>
+        <span><strong style="color: #ffffff">This card is used in 2 decks</strong> (Spidey Justice, Daredevil test). Changing its aspect or lowering its deck limit can make them incomplete.</span>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start">
+        <div style="flex: 999 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+          <section class="sec">
+            <h2>Identity</h2>
+            <div class="row">
+              <label class="field" style="grid-column: span 2">Name *
+                <input class="in" value="Daredevil">
+              </label>
+              <label class="field">Subtitle
+                <input class="in" value="Matt Murdock">
+              </label>
+            </div>
+            <div class="row">
+              <label class="field">Code
+                <input class="in" value="01058" readonly="readonly">
+                <span class="hint">Read-only after creation</span>
+              </label>
+              <label class="field" style="grid-column: span 2">Pack *
+                <select class="in"><option>Core Set</option></select>
+              </label>
+            </div>
+          </section>
+
+          <section class="sec">
+            <h2>Classification</h2>
+            <div class="row">
+              <label class="field">Type *
+                <select class="in"><option>Ally</option></select>
+              </label>
+              <label class="field">Aspect *
+                <select class="in"><option>Justice</option></select>
+              </label>
+              <label class="field">Hero
+                <select class="in" disabled="disabled"><option>Only for Hero aspect</option></select>
+              </label>
+            </div>
+          </section>
+
+          <section class="sec">
+            <h2>Cost and resources</h2>
+            <div class="row">
+              <label class="field">Cost *
+                <select class="in"><option>4</option></select>
+                <span class="hint">0–9, X, or none (resources only)</span>
+              </label>
+              <label class="field"><span><span class="rs r-e" role="img" aria-label="Energy"><svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z" fill="#000000"></path></svg></span> Energy</span>
+                <input class="in" type="number" value="0">
+              </label>
+              <label class="field"><span><span class="rs r-p" role="img" aria-label="Physical"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 12V8a2 2 0 0 1 4 0v3M10 11V7a2 2 0 0 1 4 0v4M14 11V8a2 2 0 0 1 4 0v5a7 7 0 0 1-7 7h-1a6 6 0 0 1-6-6v-1a2 2 0 0 1 4 0"></path></svg></span> Physical</span>
+                <input class="in" type="number" value="1">
+              </label>
+              <label class="field"><span><span class="rs r-m" role="img" aria-label="Mental"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2.2" stroke-linejoin="round" aria-hidden="true"><path d="M11 4H9a3 3 0 0 0-3 3 3 3 0 0 0-2 5 3 3 0 0 0 2 5 3 3 0 0 0 3 3h2zM13 4h2a3 3 0 0 1 3 3 3 3 0 0 1 2 5 3 3 0 0 1-2 5 3 3 0 0 1-3 3h-2z"></path></svg></span> Mental</span>
+                <input class="in" type="number" value="0">
+              </label>
+              <label class="field"><span><span class="rs r-w" role="img" aria-label="Wild"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9"></path></svg></span> Wild</span>
+                <input class="in" type="number" value="0">
+              </label>
+            </div>
+          </section>
+
+          <section class="sec">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap">
+              <h2>Ally stats</h2>
+              <span class="hint">Shown because Type = Ally</span>
+            </div>
+            <div class="row">
+              <label class="field">Attack (ATK) *
+                <input class="in" value="2">
+              </label>
+              <label class="field">ATK damage
+                <input class="in" type="number" value="1">
+              </label>
+              <label class="field">Thwart (THW) *
+                <input class="in" value="2">
+              </label>
+              <label class="field">THW damage
+                <input class="in" type="number" value="1">
+              </label>
+              <label class="field">Health (HP) *
+                <input class="in" type="number" value="3">
+              </label>
+            </div>
+          </section>
+
+          <section class="sec">
+            <h2>Deck building</h2>
+            <div class="row">
+              <div class="field">Unique
+                <span class="tog"><span class="tr" aria-hidden="true"></span><span>On</span></span>
+              </div>
+              <label class="field">Deck limit *
+                <input class="in" type="number" value="1" disabled="disabled">
+                <span class="hint">Unique cards are limited to 1</span>
+              </label>
+            </div>
+          </section>
+
+          <section class="sec">
+            <h2>Text</h2>
+            <label class="field">Traits
+              <input class="in err" value="Defender" aria-invalid="true" aria-describedby="traitsErr">
+              <span class="errt" id="traitsErr">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ff99a4" stroke-width="2.2" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 7v6M12 17h.01"></path></svg>
+                Each trait must end with a period, for example "Defender."</span>
+            </label>
+            <label class="field">Rules text
+              <textarea class="in" rows="3">&lt;b&gt;Response&lt;/b&gt;: After Daredevil thwarts, deal 1 damage to an enemy.</textarea>
+              <span class="hint">Supports &lt;b&gt;, &lt;i&gt; and icons such as [energy], [mental], [physical], [wild]</span>
+            </label>
+            <label class="field">Flavour text
+              <textarea class="in" rows="2">"Sometimes, I think I accomplish more with my fists than with my law firm."</textarea>
+            </label>
+          </section>
+
+          <section class="sec">
+            <h2>Image</h2>
+            <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start">
+              <img src="/_blob/f49df6e62347e8b61fe945e853a22451" alt="Current image of Daredevil" style="width: 96px; height: 134px; border-radius: 6px; object-fit: cover; flex: none">
+              <div style="flex: 1 1 240px; display: flex; flex-direction: column; gap: 10px">
+                <div style="display: flex; flex-wrap: wrap; gap: 8px">
+                  <button class="btn">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>Choose image…</button>
+                  <button class="btn">Remove</button>
+                </div>
+                <span class="hint">PNG, JPG or WEBP from a local folder. The app copies it to Images/Cards/01058.png; without an image the card shows the placeholder.</span>
+                <span style="font-size: 13px; color: #c5c5c5">Current file: Images/Cards/01058.png</span>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <aside aria-label="Live preview" style="flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 12px; padding: 18px 20px; border-radius: 8px; background: #101010; border: 1px solid #333333">
+          <div style="font-size: 12px; font-weight: 600; color: #c5c5c5; text-transform: uppercase; letter-spacing: 0.04em">Preview</div>
+          <img src="/_blob/f49df6e62347e8b61fe945e853a22451" alt="Daredevil card" style="width: 100%; max-width: 240px; aspect-ratio: 63 / 88; border-radius: 10px; object-fit: cover; align-self: center">
+          <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: baseline">
+            <strong style="font-size: 18px">● Daredevil</strong><span style="color: #c5c5c5">Matt Murdock</span>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: 13px; color: #c5c5c5">
+            <span>Ally</span><span class="chip a-just">Justice</span><span>Cost 4</span><span class="rs r-p" role="img" aria-label="Physical"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 12V8a2 2 0 0 1 4 0v3M10 11V7a2 2 0 0 1 4 0v4M14 11V8a2 2 0 0 1 4 0v5a7 7 0 0 1-7 7h-1a6 6 0 0 1-6-6v-1a2 2 0 0 1 4 0"></path></svg></span>
+          </div>
+          <div style="display: flex; gap: 8px">
+            <span class="stat">ATK<strong>2</strong></span><span class="stat">THW<strong>2</strong></span><span class="stat">HP<strong>3</strong></span>
+          </div>
+          <div style="font-size: 13px; font-weight: 600; color: #ff99a4">Defender</div>
+          <div style="font-size: 14px; line-height: 1.5"><b>Response</b>: After Daredevil thwarts, deal 1 damage to an enemy.</div>
+          <div style="font-size: 13px; font-style: italic; color: #b5b5b5">"Sometimes, I think I accomplish more with my fists than with my law firm."</div>
+          <div style="margin-top: 4px; padding-top: 12px; border-top: 1px solid #3d3d3d; font-size: 13px; color: #ff99a4">1 error to fix before saving</div>
+        </aside>
+      </div>
+    </main>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":980}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>
